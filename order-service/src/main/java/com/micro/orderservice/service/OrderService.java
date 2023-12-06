@@ -64,6 +64,7 @@ public class OrderService {
         return inventoryRequests;
     }
     public OrderLineItem mapToDto(OrderLineItemDto orderLineItemDto) {
+        // Build OrderLineItem
         OrderLineItem orderLineItem = new OrderLineItem();
         orderLineItem.setPrice(orderLineItemDto.getPrice());
         orderLineItem.setSkuCode(orderLineItemDto.getSkuCode());
