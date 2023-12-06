@@ -43,7 +43,6 @@ public class OrderService {
         if(result != null) {
             if(Arrays.stream(result).allMatch(InventoryResponse::getIsInStock)) {
                 orderRepository.save(order);
-
             }
             else {
                 throw new IllegalArgumentException("Product(s) out of stock");
