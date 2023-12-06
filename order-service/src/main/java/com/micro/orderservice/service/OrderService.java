@@ -34,8 +34,7 @@ public class OrderService {
         List<String> orderSkuCodes = order.getOrderLineItemList().stream()
                 .map(OrderLineItem::getSkuCode)
                 .toList();
-
-//        List<InventoryRequest> inventoryRequests = getInventoryRequestDtoList(orderLineItems);
+        //        List<InventoryRequest> inventoryRequests = getInventoryRequestDtoList(orderLineItems);
         InventoryResponse[] result = webClientBuilder.build().get()
                 .uri("http://inventory-service/apis/v1/inventory", uriBuilder -> uriBuilder.queryParam("skuCode", orderSkuCodes).build())
                 .retrieve()
