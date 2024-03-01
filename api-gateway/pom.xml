@@ -18,11 +18,11 @@
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-gateway -->
-        <dependency>
-            <groupId>com.okta.spring</groupId>
-            <artifactId>okta-spring-boot-starter</artifactId>
-            <version>3.0.6</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.okta.spring</groupId>-->
+<!--            <artifactId>okta-spring-boot-starter</artifactId>-->
+<!--            <version>3.0.6</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -1,14 +1,18 @@
 package com.micro.orderservice.service;
 
+import com.micro.orderservice.appConstants.NotificationAppConstant;
 import com.micro.orderservice.dto.InventoryRequest;
 import com.micro.orderservice.dto.InventoryResponse;
 import com.micro.orderservice.dto.OrderLineItemDto;
 import com.micro.orderservice.dto.OrderRequest;
+import com.micro.orderservice.event.OrderDetailsEvent;
 import com.micro.orderservice.model.Order;
 import com.micro.orderservice.model.OrderLineItem;
 import com.micro.orderservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -23,6 +27,8 @@ import java.util.UUID;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
+    @Autowired
+    private KafkaTemplate<String, OrderDetailsEvent> kafkaTemplate;
     public void placeOrder(OrderRequest orderRequest) {
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
@@ -42,6 +48,7 @@ public class OrderService {
         if(result != null) {
             if(Arrays.stream(result).allMatch(InventoryResponse::getIsInStock)) {
                 orderRepository.save(order);
+                kafkaTemplate.send(NotificationAppConstant.ORDER_PLACED_TOPIC, new OrderDetailsEvent(order.getId()));
             }
             else {
                 throw new IllegalArgumentException("Product(s) out of stock");
